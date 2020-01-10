@@ -1,7 +1,15 @@
-.PHONY: all build clean check test vet fmt lint
+.PHONY: all build_windows build_linux build_mac clean check test vet fmt lint
 
-build:
-	go build -o start/start.out start/main.go
+build_windows:
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o start/start.exe start/main.go
+
+build_linux:
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o start/start.out start/main.go
+
+build_mac:
+	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o start/start start/main.go
+
+all: build_windows build_linux build_mac
 
 check: fmt vet lint test
 
@@ -18,5 +26,5 @@ lint:
 	golint ./...
 
 clean:
-	-rm *.o *.log *.exe *.out
-#	-rm start/start
+	$(shell  find . -regex '.*\.out\|.*\.exe\|.*\.i\|.*\.s\|.*\.o' | xargs rm -f)
+
