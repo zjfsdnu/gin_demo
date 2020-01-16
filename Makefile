@@ -25,6 +25,13 @@ fmt:
 lint:
 	golint ./...
 
+install:
+print:
+tar:
+dist:
+TAGS:
+
+
 clean:
 	$(shell  find . -regex '.*\.out\|.*\.exe\|.*\.i\|.*\.s\|.*\.o' | xargs rm -f)
 
